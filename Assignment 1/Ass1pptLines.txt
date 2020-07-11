@@ -1,0 +1,17 @@
+Slide 1
+As people are marrying later and staying single longer, divorce continues to be common in the world. It's not the mythical "half of marriages end in divorce" common, but the percentages are up there. Divorce rates vary a lot by group though. Rates are higher for unempoyed than the employed as shown on first row. Education qualification also takes a key role into the success of marriage as shown on the second row. The orange line shows for male and blue for female. The graph shows between the age 30-60 is when majority of the people get a divorce. 
+
+Slide2
+So, let’s look at divorce rates by occupation. Using data from the 2015 American Community Survey, for each occupation, the percentage of people who divorced out of those who married at least once. Each dot represents an occupation, but let us first look at the outlier jobs. 
+How fitting it is to see actuaries, assessors of risk and uncertainty, at the bottom with the lowest rate and gaming managers, in charged of games of risk and uncertainty, at the top with the highest rate.
+
+Slide3- Collage of Occupations
+This is a split view for each occupation category, sorted by highest median rate to lowest. Those in transportation and material moving, such as flight attendants and bus drivers, tend to have higher divorce rates. Those in architecture and engineering tend to have lower divorce rates. Does a High paying job help?
+
+Slide 4
+It kind of looked like salary might be related. After all, education level seems to be. So, here’s divorce rates plotted against median salary per occupation. It’s looking like a downward slope.Those with higher salary occupations tend to have lower divorce rates. That seems pretty clear. But as you know, correlation isn’t always causation. 
+
+Slide 5 - Happily Ever after?
+Well, it finally factors down into how individuals live their lives. If someone who is already a physician, quits and takes a job as a bartender or telemarketer, it doesn’t mean their chances of divorce changes. It probably says more about the person than anything else. In the end we all have the right to make our own choices, so what are your chances of being happily ever after?
+
+

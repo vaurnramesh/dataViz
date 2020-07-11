@@ -1,0 +1,58 @@
+---
+title: "Untitled"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+```
+
+Column {data-width=650}
+-----------------------------------------------------------------------
+
+### Chart A
+
+```{r}
+Foodemissions <- read_csv("Foodemissions.csv")
+View(Foodemissions)
+FE_df <- gather(Foodemissions, key= "criteria", value= "contribution" , Land_use:Retail)
+FE_df
+p <- ggplot(data = FE_df, aes(x = Food_product, y = contribution, fill = criteria)) 
+
+ 
+
+p + geom_bar(stat= "identity",
+             width = 1,
+             color = "black",
+             size = 0.5,
+             alpha = 0.7) +
+  theme_minimal()+
+  theme(legend.position = "right", axis.text.x = element_text(angle = 90, hjust = 0.4)) +
+  labs(x= "Food product", y = "% Contribution", title = "Contribution of Food products in various Sectors") +
+   geom_text(aes(label = contribution), position = position_stack(vjust = 0.4), size = 2)
+  
+
+ 
+
+p %>% ggplotly()
+
+```
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Chart B
+
+```{r}
+
+```
+
+### Chart C
+
+```{r}
+
+```
+

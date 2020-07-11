@@ -1,0 +1,278 @@
+---
+title: "Varun's Dashboard"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: rows
+    vertical_layout: scroll
+    social: ["twitter", "facebook", "menu"]
+    source_code: embed
+    theme: united
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(knitr)
+library(DT)
+library(rpivotTable)
+library(ggplot2)
+library(plotly)
+library(dplyr)
+library(openintro)
+library(highcharter)
+library(ggvis)
+library(tidyverse)
+library(crosstalk)
+library(shiny)
+require(plotly)
+```
+
+```{r}
+df <- read.csv("honeyproduction.csv")
+```
+
+<style>
+
+.tabset { 
+  background-color: #D8BFD8;
+  color:white
+}
+</style>
+
+
+Interactive Data Visualization
+========================================
+
+Row
+----------------------------------------
+
+### Honey Production
+
+```{r}
+valueBox(paste("Honey Production Analysis"),
+         color = "orange")
+```
+
+
+Column {.tabset .tabset-fade data-width=100 .colored}
+-----------------------------------------------------------------------
+
+### Average State wise Production Map
+
+
+```{r}
+map1 <- df %>%
+         group_by(state) %>%
+         summarize(total = round(mean(totalprod)),2)
+
+map1$state <- abbr2state(map1$state)
+
+highchart() %>%
+         hc_title(text = "Honey Production in the USA (lbs)") %>%
+         hc_subtitle(text = "Source: honeyproduction.csv") %>%
+         hc_add_series_map(usgeojson, map1,
+                           name = "state",
+                           value = "total",
+                           joinBy = c("woename", "state")) %>%
+         hc_mapNavigation(enabled = T)
+
+
+```
+
+
+### Average Price per pound Map
+
+```{r}
+map2 <- df %>%
+         group_by(state) %>%
+         summarize(total = round(mean(priceperlb)),2)
+
+map2$state <- abbr2state(map2$state)
+
+highchart() %>%
+         hc_title(text = "Honey price perLb in the USA (USD)") %>%
+         hc_subtitle(text = "Source: honeyproduction.csv") %>%
+         hc_add_series_map(usgeojson, map2,
+                           name = "state",
+                           value = "total",
+                           joinBy = c("woename", "state")) %>%
+         hc_mapNavigation(enabled = T)
+
+```
+
+### Average Yield per colony Map
+
+```{r}
+map3 <- df %>%
+         group_by(state) %>%
+         summarize(total = round(mean(yieldpercol)),2)
+
+map3$state <- abbr2state(map3$state)
+
+highchart() %>%
+         hc_title(text = "Yield per Colony (lbs)") %>%
+         hc_subtitle(text = "Source: honeyproduction.csv") %>%
+         hc_add_series_map(usgeojson, map3,
+                           name = "state",
+                           value = "total",
+                           joinBy = c("woename", "state")) %>%
+         hc_mapNavigation(enabled = T)
+
+```
+
+### Average Stock by State Map
+
+```{r}
+map4 <- df %>%
+         group_by(state) %>%
+         summarize(total = round(mean(stocks)),2)
+
+map4$state <- abbr2state(map4$state)
+
+highchart() %>%
+         hc_title(text = "Stocks per State by Colonies (lbs)") %>%
+         hc_subtitle(text = "Source: honeyproduction.csv") %>%
+         hc_add_series_map(usgeojson, map3,
+                           name = "state",
+                           value = "total",
+                           joinBy = c("woename", "state")) %>%
+         hc_mapNavigation(enabled = T)
+
+```
+
+
+### Overview
+
+```{r}
+allPlots <- df %>% 
+  group_by(year) %>% 
+  mutate(
+    colNum.year = mean(numcol),
+    colYield.year = mean(yieldpercol),
+    totalprod.year = mean(totalprod),
+    totalStocks.year = mean(stocks),
+    priceperlb.year = mean(priceperlb),
+    totalProdValue.year = mean(prodvalue)) %>% 
+  select(contains("year")) %>% 
+  gather(key = "type", value = "value", -year)
+
+
+label <- c(
+  "colNum.year" = "No. of Honey colonies",
+  "priceperlb.year" = "Average price per pound (USD)",
+  "totalProdValue.year" = "Total production value(USD)",
+  "totalStocks.year" = "Total Stocks (lbs)",
+  "totalprod.year" = "Total production (lbs)",
+  "colYield.year" = "Honey yield per colony (lbs)"
+)
+
+plot1 <- allPlots %>% 
+  ggplot(aes(x = year, y = value, group = type, color = type)) + 
+  geom_line(show.legend = F) + 
+  facet_wrap(~type, scales = "free_y", labeller = as_labeller(label), shrink = TRUE) + 
+  labs(y = "") 
+
+plot1%>% ggplotly()
+
+
+
+```
+
+
+Row {.tabset .tabset-fade data-width=200 .colored }
+-----------------------------------------------------------------------
+
+
+### State wise production graph 
+
+```{r}
+
+state.production <- df %>% 
+  ggplot(aes(x = year, y = totalprod/1000000, color = state)) + 
+  geom_smooth(show.legend = T, se = FALSE) + 
+  labs(title = "Honey Production from 1998 to 2012 by each state") + 
+  ylab("Total Production in Millions")+
+  xlab("Years ")
+state.production %>% ggplotly()
+
+
+```
+
+### Price per pound graph
+
+```{r}
+
+pricePerPound <- df %>% 
+  ggplot(aes(x = year, y = priceperlb, color = state)) + 
+  geom_smooth(show.legend = T, se = FALSE) + 
+  labs(title = "Price per pound from 1998 to 2012 by each state") + 
+  ylab("State-wise Price in Million Dollars")+
+  xlab("Years ")
+pricePerPound %>% ggplotly()
+
+```
+
+### Yield Per Colony Graph
+
+```{r}
+
+yieldPerColony <- df %>% 
+  ggplot(aes(x = year, y = yieldpercol, color = state)) + 
+  geom_smooth(show.legend = T, se = FALSE) + 
+  labs(title = "Honey yield per colony from 1998 to 2012 by each state") + 
+  ylab("Total yield in lbs")+
+  xlab("Years ")
+yieldPerColony %>% ggplotly()
+
+```
+
+### Stock by State Graph
+
+```{r}
+p3 <- state.production <- df %>% 
+  ggplot(aes(x = year, y = stocks, color = state)) + 
+  geom_smooth(show.legend = T, se = FALSE) + 
+  labs(title = "Honey Stock from 1998 to 2012 by each state") + 
+  ylab("Stocks of Honey per State in lbs")+
+  xlab("Years ")
+state.production %>% ggplotly()
+
+p3 %>% ggplotly()
+
+
+
+
+
+
+```
+
+
+
+References
+========================================
+
+
+
+Row
+----------------------------------
+
+
+### Dataset Reference 
+Li, J. (2018). Honey Production in the USA (1998-2012). Kaggle.com. Retrieved 4 June 2020, from https://www.kaggle.com/jessicali9530/honey-production.
+
+
+Row
+------------------------------------
+
+### Bibliography
+
+* Using flexdashboard. Rmarkdown.rstudio.com. (2020). Retrieved 16 June 2020, from https://rmarkdown.rstudio.com/flexdashboard%2Fusing.html%23value_boxes%2F#appearance.
+
+* Honey production. Kaggle.com. (2020). Retrieved 17 June 2020, from https://www.kaggle.com/arthurpaulino/honey-production.
+
+* Rai, B. (2018). How to use flexi Dashboards [Video]. Retrieved 17 June 2020, from https://www.youtube.com/watch?v=_a4S4tq62OE.
+
+Row
+---------------------------------
+
+Created by : Varun Ramesh
+<br>ID         : s3793675

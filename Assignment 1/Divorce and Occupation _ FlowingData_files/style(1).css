@@ -1,0 +1,299 @@
+/* #Reset & Basics (Inspired by E. Meyers)
+================================================== */
+	html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+		margin: 0;
+		padding: 0;
+		border: 0;
+		font-size: 100%;
+		font: inherit;
+		vertical-align: baseline; }
+	article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+		display: block; }
+	body {
+		line-height: 1; }
+	ol, ul {
+		list-style: none; }
+	blockquote, q {
+		quotes: none; }
+	blockquote:before, blockquote:after,
+	q:before, q:after {
+		content: '';
+		content: none; }
+	table {
+		border-collapse: collapse;
+		border-spacing: 0; }
+
+
+body {
+    font-family: 'Inconsolata', Monaco, "Lucida Console", Consolas, "Courier New";
+}
+#main-wrapper {
+  width: 1090px;
+  margin: 10px auto;
+}
+#header {
+	margin-bottom: 15px;
+}
+#charts { 
+    margin-top: 20px;
+/*    position: absolute;*/
+/*    top: 150px;*/
+}
+
+
+/* Text
+============================ */
+
+h1 {
+	font-family: 'Inconsolata', Monaco, "Lucida Console", Consolas, "Courier New";
+	font-size: 24px;
+	font-style: normal;
+	text-transform: uppercase;
+	margin: 0 0 8px 15px;
+	text-align: center;
+}
+h3 {
+	text-transform: uppercase;
+	font-size: 16px;
+	padding: 3px 0px;
+	margin: -5px 0 0px 0;
+	font-style: normal;
+	text-align: center;
+}
+.subheader text {
+	font-size: 14px;
+	text-transform: uppercase;
+	font-weight: bold;
+}
+
+.clr { clear: both; }
+
+
+/* Controls
+============================ */
+
+#controls {
+	width: 190px;
+	margin: 10px auto 25px auto;
+}
+
+.button {
+	width: 68px;
+	padding: 6px 6px;
+	margin-right: 10px;
+	cursor: pointer;
+	text-align: center;
+	font-size: 16px;
+	border: 1px solid #e0e0e0;
+	float: left;
+	-moz-border-radius: 6px;
+	border-radius: 6px;
+}
+.button:hover {
+	background: #e0e0e0;
+}
+.button.current {
+	background: #000;
+	color: #fff;
+}
+
+
+
+/* Chart
+============================ */
+
+svg {
+  	font: 14px 'Inconsolata', Monaco, "Lucida Console", Consolas, "Courier New";
+	margin-bottom: 30px;
+	float: left;
+}
+.chartbg rect {
+	fill: #f0f0f0;
+}
+
+text.descrip tspan {
+    font-size: 1em;
+}
+.axis text {
+    font-family: 'Inconsolata', Monaco, "Lucida Console", Consolas, "Courier New";
+	font-size: 13px;
+}
+.axistitle { text-transform: uppercase; }
+.mults .y.axis text {
+    font-size: 11px;
+    fill: #666;
+}
+.mult h3 {
+    font-size: .8em;
+    height: 28px;
+}
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #666;
+  stroke-width: 1px;
+  shape-rendering: crispEdges;
+}
+.x.axis path {
+  display: none;
+}
+/*.y.axis line { stroke-dasharray: 1 2; }*/
+.x.axis line, .y.axis line { stroke: #e0e0e0; }
+.y.axis path {
+  display: none;
+}
+.y.axis.simple text {
+	display: none;
+}
+.baseline line {
+    stroke: #000;
+    stroke-width: 2px;
+}
+.line {
+  fill: none;
+  stroke: #af10a8;
+  stroke-width: 1px;
+}
+.line.weekend {
+	stroke: #91BC4F;
+	stroke-width: 1px;
+}
+
+.cells path {
+  fill: none;
+  pointer-events: all;
+}
+.cells circle {
+    fill: #4BC2BC;
+}
+.cells :hover circle {
+  fill: #ea19e1;
+}
+.mults .cells :hover circle {
+    fill: #4BC2BC;
+}
+
+.overlay {
+  fill: none;
+  pointer-events: all;
+  z-index: 1;
+}
+
+
+/* Annotation
+============================ */
+
+.medianline line {
+  fill: none;
+  stroke: #af10a8;
+  stroke-width: 1.5px;
+  stroke-dasharray: 5,2;
+}
+.medianline text {
+    fill: #af10a8;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.desc {
+    font-family: "Mercury SSm A", "Mercury SSm B";
+    font-style: italic;
+    font-weight: 400;
+	font-size: 14px;
+	line-height: 1.5em;
+}
+
+.focus text {
+	font-size: 11px;
+}
+
+line.annotation {
+    stroke: #ccc;
+	stroke-dasharray: 5,2;
+	stroke-width: 1.2px;
+}
+text.annotation, #line-chart .agehighlight text {
+    font-family: 'Inconsolata', Monaco, "Lucida Console", Consolas, "Courier New";
+    font-size: 14px;
+    fill: #444;
+    text-anchor: end;
+}
+text.descrip {
+    font-family: "Mercury SSm A", "Mercury SSm B";
+    font-style: italic;
+    font-weight: 400;
+	font-size: 13px;
+	line-height: 1.4em;
+}
+
+
+:root {
+      --line-chart-color: #666;
+      --annotation-context-color: #666;
+      --annotation-above-color: #666;
+      --annotation-anomaly-color: #666;
+    }
+.annotation path {
+/*      stroke: var(--annotation-context-color);*/
+    stroke: #000000;
+    fill: none;
+    }
+
+    .annotation:not(.above):not(.anomaly) path {
+/*      stroke-dasharray: 1,2;*/
+        stroke-width: 1.5px;
+    }
+
+    .annotation text {
+/*      fill: #666;*/
+/*      text-transform: uppercase;*/
+      text-shadow: 0 3px 0 #fff, 3px 0 0 #fff, 0 -3px 0 #fff, -3px 0 0 #fff;
+    }
+    .annotation .annotation-note-content .annotation-note-title {
+        fill: #666;
+        text-transform: uppercase;
+        font-size: .95em;
+    }
+    .annotation .annotation-note-content .annotation-note-label {
+        font-size: 1.1em;
+        font-weight: bold;
+        
+    }
+
+    .annotation.above path {
+      stroke: var(--annotation-above-color);
+    }
+
+    .annotation.above text {
+      fill: #666;
+    }
+
+    .annotation.anomaly path {
+      stroke: var(--annotation-anomaly-color);
+      stroke-width: 2px;
+    }
+
+    .annotation.anomaly text {
+      fill: #666;
+    }
+
+    .annotation-note-bg {
+      fill: rgba(0, 0, 0, 0);
+    }
+
+    .annotation-note-title {
+        text-transform: none;
+        fill: #000;
+/*        font-size: .9em;*/
+/*      font-weight: bold;*/
+    }
+
+    text.title {
+      font-size: 1.2em;
+      font-weight: bold;
+    }
+
+
+
+
+
